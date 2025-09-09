@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Get Time - Đông Nam Á</title>
+    <style>
+      :root {
+        --bg: #0f1724;
+        --card: #111827;
+        --accent: #06b6d4;
+        --muted: #9ca3af;
+        --glass: rgba(255, 255, 255, 0.03);
+      }
+      * {
+        box-sizing: border-box;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(180deg, #071029 0%, #0f1724 100%);
+        color: #e6eef6;
+        padding: 24px;
+      }
+      .card {
+        width: 720px;
+        max-width: 95%;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 8px 30px rgba(2, 6, 23, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+      h1 {
+        margin: 0 0 6px 0;
+        font-size: 20px;
+        letter-spacing: 0.2px;
+      }
+      p.lead {
+        margin: 0 0 18px 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+        min-width: 120px;
+      }
+      select {
+        flex: 1;
+        padding: 10px 12px;
+        background: var(--glass);
+        color: inherit;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 8px;
+        outline: none;
+        font-size: 14px;
+        appearance: none;
+      }
+      .display {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 6px;
+      }
+      .tile {
+        background: rgba(255, 255, 255, 0.02);
+        padding: 14px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .tile h3 {
+        margin: 0;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .tile p {
+        margin: 6px 0 0 0;
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .full {
+        grid-column: 1/-1;
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+      footer {
+        margin-top: 16px;
+        color: var(--muted);
+        font-size: 12px;
+        text-align: right;
+      }
+      @media (max-width: 520px) {
+        .display {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card" role="main">
+      <h1>Get Time — Thời gian hiện tại (Đông Nam Á)</h1>
+      <p class="lead">
+        Chọn một nước / vùng, xem múi giờ IANA, offset UTC, giờ và ngày tháng
+        hiện tại (cập nhật mỗi giây).
+      </p>
+
+      <div class="row">
+        <label for="tzSelect">Chọn nước / vùng:</label>
+        <select id="tzSelect" aria-label="Chọn múi giờ">
+          <option value="Asia/Brunei">Brunei</option>
+          <option value="Asia/Phnom_Penh">Campuchia (Cambodia)</option>
+          <option value="Asia/Jakarta">Indonesia — Western (Jakarta)</option>
+          <option value="Asia/Makassar">
+            Indonesia — Central (Makassar / Bali)
+          </option>
+          <option value="Asia/Jayapura">Indonesia — Eastern (Papua)</option>
+          <option value="Asia/Vientiane">Lào (Laos)</option>
+          <option value="Asia/Kuala_Lumpur">Malaysia</option>
+          <option value="Asia/Yangon">Myanmar</option>
+          <option value="Asia/Manila">Philippines</option>
+          <option value="Asia/Singapore">Singapore</option>
+          <option value="Asia/Bangkok">Thái Lan (Thailand)</option>
+          <option value="Asia/Ho_Chi_Minh" selected>Việt Nam (Vietnam)</option>
+          <option value="Asia/Dili">Timor-Leste (East Timor)</option>
+        </select>
+      </div>
+
+      <div class="display" aria-live="polite">
+        <div class="tile full">
+          <h3>Múi giờ (IANA)</h3>
+          <p id="iana">—</p>
+          <div class="small" id="tzFullDesc"></div>
+        </div>
+
+        <div class="tile">
+          <h3>Offset so với UTC</h3>
+          <p id="offset">—</p>
+        </div>
+
+        <div class="tile">
+          <h3>Giờ (HH:MM:SS)</h3>
+          <p id="time">—</p>
+        </div>
+
+        <div class="tile">
+          <h3>Ngày (DD/MM/YYYY)</h3>
+          <p id="date">—</p>
+        </div>
+      </div>
+
+      <footer>
+        Gợi ý: timezone dùng IANA (ví dụ Asia/Bangkok, Asia/Ho_Chi_Minh ...)
+      </footer>
+    </div>
+
+    <script>
+      const tzSelect = document.getElementById("tzSelect");
+      const ianaEl = document.getElementById("iana");
+      const tzFullDescEl = document.getElementById("tzFullDesc");
+      const offsetEl = document.getElementById("offset");
+      const timeEl = document.getElementById("time");
+      const dateEl = document.getElementById("date");
+
+      function formatTimeForZone(date, timeZone) {
+        const fmt = new Intl.DateTimeFormat("vi-VN", {
+          timeZone,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        });
+        return fmt.format(date);
+      }
+      function formatDateForZone(date, timeZone) {
+        const fmt = new Intl.DateTimeFormat("vi-VN", {
+          timeZone,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        });
+        return fmt.format(date);
+      }
+
+      function getTimeZoneName(date, timeZone) {
+        const fmt = new Intl.DateTimeFormat("en-US", {
+          timeZone,
+          timeZoneName: "short",
+          hour: "2-digit",
+        });
+        const parts = fmt.formatToParts(date);
+        const tzPart = parts.find((p) => p.type === "timeZoneName");
+        return tzPart ? tzPart.value : "";
+      }
+
+      function getOffsetMinutes(date, timeZone) {
+        const parts = new Intl.DateTimeFormat("en-US", {
+          timeZone,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        }).formatToParts(date);
+
+        const map = {};
+        parts.forEach((p) => {
+          if (p.type !== "literal") map[p.type] = p.value;
+        });
+        const year = Number(map.year);
+        const month = Number(map.month); // 1-12
+        const day = Number(map.day);
+        const hour = Number(map.hour);
+        const minute = Number(map.minute);
+        const second = Number(map.second || 0);
+
+        const msAsUTC = Date.UTC(year, month - 1, day, hour, minute, second);
+        const nowMs = date.getTime();
+        return Math.round((msAsUTC - nowMs) / 60000);
+      }
+
+      function minutesToUTCOffset(mins) {
+        const sign = mins >= 0 ? "+" : "-";
+        const m = Math.abs(mins);
+        const h = Math.floor(m / 60);
+        const mm = m % 60;
+        return `UTC${sign}${String(h).padStart(2, "0")}:${String(mm).padStart(
+          2,
+          "0"
+        )}`;
+      }
+      function updateNow() {
+        const tz = tzSelect.value;
+        const now = new Date();
+
+        ianaEl.textContent = tz;
+        const tzName = getTimeZoneName(now, tz);
+        tzFullDescEl.textContent = tzName ? `Time zone: ${tzName}` : "";
+
+        const offsetMinutes = getOffsetMinutes(now, tz);
+        offsetEl.textContent = `${minutesToUTCOffset(
+          offsetMinutes
+        )} (${offsetMinutes} phút)`;
+
+        timeEl.textContent = formatTimeForZone(now, tz);
+        dateEl.textContent = formatDateForZone(now, tz);
+      }
+
+      let timer = null;
+      function start() {
+        if (timer) clearInterval(timer);
+        updateNow();
+        timer = setInterval(updateNow, 1000);
+      }
+
+      tzSelect.addEventListener("change", () => {
+        updateNow();
+      });
+
+      start();
+    </script>
+  </body>
+</html>
