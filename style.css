@@ -1,0 +1,161 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2.5em;
+    font-weight: 300;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.1em;
+}
+
+.select-container {
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    color: #333;
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 1.1em;
+}
+
+select {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #e1e5e9;
+    border-radius: 10px;
+    font-size: 1em;
+    background: white;
+    color: #333;
+    transition: border-color 0.3s ease;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+select:hover {
+    border-color: #764ba2;
+}
+
+.time-display {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.time-info {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 25px;
+    border-left: 5px solid #667eea;
+}
+
+.time-info h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    font-weight: 400;
+}
+
+.time-details {
+    text-align: left;
+}
+
+.time-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.time-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: 600;
+    color: #495057;
+    font-size: 1em;
+}
+
+.time-row span:last-child {
+    color: #333;
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+#current-time {
+    font-family: 'Courier New', monospace;
+    font-size: 1.2em !important;
+    color: #667eea !important;
+    font-weight: 600 !important;
+}
+
+#current-date {
+    color: #764ba2 !important;
+    font-weight: 600 !important;
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 25px;
+        margin: 10px;
+    }
+    
+    h1 {
+        font-size: 2em;
+    }
+    
+    .time-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .time-row span:last-child {
+        font-size: 1em;
+    }
+}

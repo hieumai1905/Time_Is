@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time Is - Thời gian các nước Đông Nam Á</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Time Is</h1>
+        <p class="subtitle">Xem thời gian hiện tại của các nước Đông Nam Á</p>
+        
+        <div class="select-container">
+            <label for="country-select">Chọn quốc gia:</label>
+            <select id="country-select">
+                <option value="">-- Chọn quốc gia --</option>
+                <option value="Asia/Ho_Chi_Minh">Việt Nam</option>
+                <option value="Asia/Bangkok">Thái Lan</option>
+                <option value="Asia/Singapore">Singapore</option>
+                <option value="Asia/Kuala_Lumpur">Malaysia</option>
+                <option value="Asia/Jakarta">Indonesia (Jakarta)</option>
+                <option value="Asia/Manila">Philippines</option>
+                <option value="Asia/Phnom_Penh">Campuchia</option>
+                <option value="Asia/Vientiane">Lào</option>
+                <option value="Asia/Yangon">Myanmar</option>
+                <option value="Asia/Brunei">Brunei</option>
+            </select>
+        </div>
+        
+        <div id="time-display" class="time-display" style="display: none;">
+            <div class="time-info">
+                <h2 id="country-name"></h2>
+                <div class="time-details">
+                    <div class="time-row">
+                        <span class="label">Múi giờ:</span>
+                        <span id="timezone"></span>
+                    </div>
+                    <div class="time-row">
+                        <span class="label">Thời gian:</span>
+                        <span id="current-time"></span>
+                    </div>
+                    <div class="time-row">
+                        <span class="label">Ngày tháng:</span>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
